@@ -1,3 +1,8 @@
+'''
+Programmers: Kyle Heestand and Ben Kocik
+Description: 
+'''
+
 from PIL import Image
 import numpy as np
 import math
@@ -33,6 +38,11 @@ def colorMapper(value):
     return numvalue
 
 if __name__ == '__main__':
+
+    #################################
+    # TODO: KYLE COMMENT YOUR SHIT! #
+    #################################
+
     pool = multiprocessing.Pool(processes=6)
     filePath = input("Enter a file path: ")
     fp = open(filePath, "rb")
