@@ -92,7 +92,7 @@ def encode_text():
   print("The shape of the image is: ",image.shape) #check the shape of image to calculate the number of bytes in it
   print("The original image is as shown below: ")
   resized_image = cv2.resize(image, (500, 500)) #resize the image as per your requirement
-  cv2.imshow(resized_image) #display the image
+  cv2.imshow("image", resized_image) #display the image
   
       
   data = input("Enter data to be encoded : ") 
@@ -111,7 +111,7 @@ def decode_text():
 
   print("The Steganographed image is as shown below: ")
   resized_image = cv2.resize(image, (500, 500))  #resize the original image as per your requirement
-  cv2.imshow(resized_image) #display the Steganographed image
+  cv2.imshow("image", resized_image) #display the Steganographed image
     
   text = showData(image)
   return text
