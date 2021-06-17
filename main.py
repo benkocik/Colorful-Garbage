@@ -9,16 +9,50 @@ import hashlib
 import sys
 from datetime import datetime
 from validation import validate
-from cryptoUtils import writeKey
+import cryptoUtils
 import utils
 from steganography import steganography
 
 def doUnhide(argDict : dict):
-    dateFromImage = steganography(argDict, False)
-    #if argDict.__contains__
+    (data, dataType) = steganography(argDict, False)
+    
+    if argDict["decrypt"] != None:
+        key = cryptoUtils.loadKey(argDict['decrypt'])
+        if dataType:
+            message = cryptoUtils.decrypt(data.encode(), key)
+            print("MESSAGE: " + message)
+        else:
+            utils.writeEncryptedHexString(argDict['out'], data, key)
+            print("Wrote data to " + argDict['out'])
+    else:
+        if dataType:
+            print("MESSAGE: " + data)
+        else:
+            utils.writeHexString(argDict['out'])
+            print("Wrote data to " + argDict['out'])
 
 def doHide(argDict : dict):
-    pass
+    message = "str:oops"
+
+    if argDict["encrypt"] != None:
+        key = cryptoUtils.loadKey(argDict['encrypt'])
+        if "file:" in argDict['message']:
+            message = utils.getEncryptedHexFromFile(argDict['message'].replace("file:",""), key)
+            message = "file:" + message
+        else:
+            message = argDict['message'].replace("str:", "")
+            message = cryptoUtils.encrypt(message.encode(), key)
+            message = "str:" + message
+    else:
+        if "file:" in argDict['message']:
+            message = utils.getHexFromFile(argDict['message'].replace("file:",""))
+            message = "file:" + message
+        else:
+            message = argDict['message'].replace("str:","")
+            message = "str:" + message
+
+    argDict['message'] = message
+    steganography(argDict, True)
 
 def runSetup(argDict: dict):
     '''
@@ -79,5 +113,8 @@ if __name__ == "__main__" :
     args = parser.parse_args()
     # Get arguments as a dictionary so it is easier to work with
     argsDict = args.__dict__
-    print(argsDict.__contains__("decrypt"))
-    print(argsDict)
+
+    if argsDict.__contains__("message"):
+        doHide(argsDict)
+    else:
+        doUnhide(argsDict)

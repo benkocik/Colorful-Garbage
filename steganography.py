@@ -130,7 +130,7 @@ def steganography(argDict, mode):
                 String message and boolean message type. True for message, False for file
     '''
     # Get values from argDict
-    startImage = argDict['input']   # Image inputted
+    startImage = argDict['inputs']   # Image inputted
     message = argDict['message']    # Message to hide, either file or string
     outFile = argDict['out']        # Image file to output to
 
