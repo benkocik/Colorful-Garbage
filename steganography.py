@@ -4,10 +4,10 @@ Description: Handles all steganography. Takes dictionary as input from main.py
 '''
 
 # Imports
-from reference import messageToBinary
 import cv2
 import logging
 import sys
+from utils import stringToBinary
 
 # Constants for end of message types
 # Use 5 '#'s to signify end of string type message
@@ -40,14 +40,14 @@ def encode_text(image, message, messageType):
         sys.exit(1)
 
     i = 0
-    binaryMessage = messageToBinary(message)  # Convert data to binary
+    binaryMessage = stringToBinary(message)  # Convert data to binary
 
     # Break image into values
     for values in im:
         # Break values into pixels
         for pixel in values:
             # Convert rgb of pixel into binary
-            r, g, b = messageToBinary(pixel)
+            r, g, b = stringToBinary(pixel)
             # RED IN PIXEL
             if i < len(binaryMessage):
                 # Hide data into LSB
@@ -87,7 +87,7 @@ def decode_text(image):
         # Break values into pixels
         for pixel in values:
             # Convert rgb of pixel into binary
-            r, g, b = messageToBinary(pixel)
+            r, g, b = stringToBinary(pixel)
             binaryData += r[-1] # Get LSB from red
             binaryData += g[-1] # Get LSB from green
             binaryData += b[-1] # Get LSB from blue
