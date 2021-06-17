@@ -103,9 +103,6 @@ def decode_text(image):
         elif message[-5:] == FILE_END:
             messageType = False
             break
-        else:
-            logging.error("Message not found in image, try a different image")
-            sys.exit(1)
 
     if message[:-5] == STRING_END or message[:-5] == FILE_END:
         message = message[:-5]  # Remove ending from message
