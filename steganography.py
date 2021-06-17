@@ -6,7 +6,6 @@ Description: Handles all steganography. Takes dictionary as input from main.py
 # Imports
 from reference import messageToBinary
 import cv2
-import numpy as np
 import logging
 import sys
 
