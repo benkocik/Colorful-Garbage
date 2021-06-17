@@ -107,7 +107,12 @@ def decode_text(image):
             logging.error("Message not found in image, try a different image")
             sys.exit(1)
 
-    message = message[:-5]  # Remove ending from message
+    if message[:-5] == STRING_END or message[:-5] == FILE_END:
+        message = message[:-5]  # Remove ending from message
+    else:
+        logging.error("Message not found in image, try a different image")
+        sys.exit(1)
+
     return message, messageType     # Return message as string and message type as boolean
     
 
