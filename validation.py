@@ -35,7 +35,7 @@ def validate(dictionary : dict):
     if not dictionary['verbose'] in list(range(10,60,10)):
         raise ValueError("Invalid number for verbose level. Valid levels are 10,20,30,40 and 50", "verbose", getIntegerInRange, [(10, 50, 10), 50])
 
-    if dictionary.__contains__("decrypt"):
+    if dictionary["decrypt"]:
         if not path.exists(dictionary['decrypt']):
             raise ValueError(dictionary['decrypt'] + " does not exist.", "decrypt", getFilePath, [""])
         if dictionary['decrypt'] == None:

@@ -16,7 +16,7 @@ from steganography import steganography
 def doUnhide(argDict : dict):
     (data, dataType) = steganography(argDict, False)
     
-    if argDict.__contains__("decrypt"):
+    if argDict["decrypt"] != None:
         key = cryptoUtils.loadKey(argDict['decrypt'])
         if dataType:
             message = cryptoUtils.decrypt(data.encode(), key)
@@ -34,13 +34,13 @@ def doUnhide(argDict : dict):
 def doHide(argDict : dict):
     message = "str:oops"
 
-    if argDict.__contains__("encrypt"):
+    if argDict["encrypt"] != None:
         key = cryptoUtils.loadKey(argDict['encrypt'])
         if "file:" in argDict['message']:
             message = utils.getEncryptedHexFromFile(argDict['message'].replace("file:",""), key)
             message = "file:" + message
         else:
-            message = argDict['message'].replace("str:")
+            message = argDict['message'].replace("str:", "")
             message = cryptoUtils.encrypt(message.encode(), key)
             message = "str:" + message
     else:
@@ -48,7 +48,7 @@ def doHide(argDict : dict):
             message = utils.getHexFromFile(argDict['message'].replace("file:",""))
             message = "file:" + message
         else:
-            message = argDict['message'].replace("str:")
+            message = argDict['message'].replace("str:","")
             message = "str:" + message
 
     argDict['message'] = message
@@ -113,4 +113,8 @@ if __name__ == "__main__" :
     args = parser.parse_args()
     # Get arguments as a dictionary so it is easier to work with
     argsDict = args.__dict__
-    print(argsDict)
+
+    if argsDict.__contains__("message"):
+        doHide(argsDict)
+    else:
+        doUnhide(argsDict)
