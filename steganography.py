@@ -104,11 +104,7 @@ def decode_text(image):
             messageType = False
             break
 
-    if message[:-5] == STRING_END or message[:-5] == FILE_END:
-        message = message[:-5]  # Remove ending from message
-    else:
-        logging.error("Message not found in image, try a different image")
-        sys.exit(1)
+    message = message[:-5]  # Remove ending from message
 
     return message, messageType     # Return message as string and message type as boolean
     
@@ -128,6 +124,7 @@ def steganography(argDict, mode):
     '''
     # Get values from argDict
     startImage = argDict['inputs']   # Image inputted
+    startImage = startImage[5:]
     message = argDict['message']    # Message to hide, either file or string
     outFile = argDict['out']        # Image file to output to
 

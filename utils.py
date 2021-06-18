@@ -1,9 +1,11 @@
 from cryptoUtils import encrypt
 from cryptoUtils import decrypt
 import numpy as np
+from hashlib import sha256
 def getHexFromFile(pathToFile : str) -> str:
     fp = open(pathToFile, 'rb')
-    hexStr = fp.read().hex()
+    someBytes = fp.read()
+    hexStr = someBytes.hex()
     fp.close()
     return hexStr
 
@@ -15,14 +17,14 @@ def getEncryptedHexFromFile(pathToFile : str, key : bytes) -> str:
 
 def writeHexString(pathToNewFile : str, dataToWrite : str):
     fileAsBytes = bytes.fromhex(dataToWrite)
-    fp = open(pathToNewFile, 'w')
+    fp = open(pathToNewFile, 'wb')
     fp.write(fileAsBytes)
     fp.close()
 
 def writeEncryptedHexString(pathToNewFile : str, dataToWrite : str, key : bytes):
     data = decrypt(bytes.fromhex(dataToWrite), key)
-    fp = open(pathToNewFile, 'w')
-    fp.write(data)
+    fp = open(pathToNewFile, 'wb')
+    fp.write(data.decode())
     fp.close()
 
 def stringToBinary(m):
