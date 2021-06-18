@@ -19,7 +19,7 @@ def validate(dictionary : dict):
         raise ValueError("Input must have \'file:/\' before the path. Ex \'/path/to/file.png\'", "inputs", getFilePath, ["file:"])
 
     if not path.exists(dictionary['inputs'].replace("file:","")):
-        raise ValueError("Path to file does not exist. Please select a existing file.", "inputs", getFilePath, ["file:"])
+        raise ValueError("Input file does not exist. Please select a existing file.", "inputs", getFilePath, ["file:"])
 
     if dictionary['mode']:
         if "file:" in dictionary['message']:
