@@ -1,6 +1,9 @@
 # Colorful-Garbage
 IME-211 Project
 
+How to install required modules:
+pip install -r requirements.txt
+
 How to run the program (Images can be replaced accordingly, image must be a png or bitmap)
 Hide message in image:
 python main.py -n 1 -o kyle_embedded_file.png -v 50 -i "file:kyle.png" -m "str:Have a great summer! Thanks for a great class- Kyle Heestand and Ben Kocik"
