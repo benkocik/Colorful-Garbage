@@ -15,7 +15,6 @@ Unhide message from kyle_embedded_file.png:
 python main.py -n 1 -v 50 -i "file:kyle_embedded_file.png"
 Output- MESSAGE: Have a great summer! Thanks for a great class- Kyle Heestand and Ben Kocik
 
-
 Uhide file from ben_embedded_file.png and write to file embedded_img.png:
 python main.py -n 1 -o embedded_img.png -v 50 -i "file:ben_embedded_file.png"       
 Resulting image should be kyle.png but a smaller size
