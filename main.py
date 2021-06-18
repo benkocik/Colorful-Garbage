@@ -20,7 +20,7 @@ def doUnhide(argDict : dict):
         key = cryptoUtils.loadKey(argDict['decrypt'])
         if dataType:
             message = cryptoUtils.decrypt(data.encode(), key)
-            print("MESSAGE: " + message)
+            print("MESSAGE: " + message.decode())
         else:
             utils.writeEncryptedHexString(argDict['out'], data, key)
             print("Wrote data to " + argDict['out'])
@@ -28,7 +28,7 @@ def doUnhide(argDict : dict):
         if dataType:
             print("MESSAGE: " + data)
         else:
-            utils.writeHexString(argDict['out'])
+            utils.writeHexString(argDict['out'], data)
             print("Wrote data to " + argDict['out'])
 
 def doHide(argDict : dict):
@@ -42,7 +42,7 @@ def doHide(argDict : dict):
         else:
             message = argDict['message'].replace("str:", "")
             message = cryptoUtils.encrypt(message.encode(), key)
-            message = "str:" + message
+            message = "str:" + message.decode()
     else:
         if "file:" in argDict['message']:
             message = utils.getHexFromFile(argDict['message'].replace("file:",""))
@@ -109,12 +109,20 @@ if __name__ == "__main__" :
     parser.add_argument('-l', '--log', type=str, help="File to log to. You can also put STDOUT to log to STDOUT.")
     parser.add_argument('-e', '--encrypt', type=str, help="Encrypt the data before hiding. A path to a key file is required here. Keys can be generate using the --gen-key flag")
     parser.add_argument('-d', '--decrypt', type=str, help="Decrypt the data after revealing. A path to a key file is required for this")
-    parser.add_argument('--gen-key', type=bool, help="Generates a key to a specific file path for encryption")
+    parser.add_argument('--gen-key', type=str, help="Generates a key to a specific file path for encryption")
     args = parser.parse_args()
     # Get arguments as a dictionary so it is easier to work with
     argsDict = args.__dict__
 
-    if argsDict.__contains__("message"):
+    if argsDict["gen_key"] != None:
+        cryptoUtils.writeKey(argsDict["gen_key"])
+        print("New key created. Generated key is located at " + argsDict["gen_key"])
+        sys.exit(0)
+    if argsDict["message"] != None:
+        argsDict['mode'] = True
+        runSetup(argsDict)
         doHide(argsDict)
     else:
+        argsDict['mode'] = False
+        runSetup(argsDict)
         doUnhide(argsDict)
